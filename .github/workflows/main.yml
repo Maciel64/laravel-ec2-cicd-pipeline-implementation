@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh ubuntu@https://ec2-3-87-123-140.compute-1.amazonaws.com << 'EOF'
+          ssh ubuntu@ec2-3-87-123-140.compute-1.amazonaws.com << 'EOF'
           cd /var/www/html/laravel-ec2-cicd-pipeline-implementation
           git pull origin main
           npm install
