@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh ubuntu@https://ec2-3-87-123-140.compute-1.amazonaws.com << 'EOF'
+          cd /var/www/html/laravel-ec2-cicd-pipeline-implementation
+          git pull origin main
+          npm install
+          npm run build
+          composer install
+          php artisan migrate
+          sudo systemctl restart nginx
+          EOF
