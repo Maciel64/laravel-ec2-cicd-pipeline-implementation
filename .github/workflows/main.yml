@@ -19,11 +19,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add SSH host key
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ec2-3-87-123-140.compute-1.amazonaws.com >> ~/.ssh/known_hosts
-
       - name: Deploy to EC2
         run: |
           ssh ubuntu@ec2-3-87-123-140.compute-1.amazonaws.com << 'EOF'
